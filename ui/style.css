@@ -95,12 +95,13 @@ main > ol > li {
 .commenter-username:link {
   color: grey;
 }
+textarea {
+  max-width: 80vw;
+}
 input[type="checkbox"].collabsible-input {
   display: none;
 }
-.wrap-collabsible {
-  margin: 1.2rem 0;
-}
+
 .lbl-toggle {
   cursor: pointer;
   transition: all 0.25s ease-out;
@@ -131,4 +132,9 @@ input[type="checkbox"].collabsible-input {
 
 .collapsible-content p {
   margin-bottom: 0;
+}
+.ruling {
+  background-color: #ff6600;
+  height: 3px;
+  border: 0;
 }

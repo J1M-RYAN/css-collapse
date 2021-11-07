@@ -76,6 +76,9 @@ main > ol > li {
 .post-subtext {
   margin-left: 1.5rem;
 }
+.comment {
+  padding: 1rem;
+}
 
 .comment-form {
   margin-top: 1rem;

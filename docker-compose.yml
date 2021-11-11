@@ -4,10 +4,13 @@ services:
     image: mongo
     ports:
       - 27017:27017
-    restart: unless-stopped
+    restart: always
   web:
     build:
       context: "./"
       dockerfile: "./node.Dockerfile"
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+    restart: always

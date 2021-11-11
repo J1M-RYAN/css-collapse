@@ -3,7 +3,7 @@ import { postFactory } from "./models/posts.js";
 export default async function initaliseDB() {
   const client = await MongoClient.connect(
     `mongodb://${
-      process.env.NODE_ENV === "production" ? "localhost" : "db"
+      process.env.NODE_ENV === "production" ? "db" : "localhost"
     }:27017`,
     {
       useUnifiedTopology: true,

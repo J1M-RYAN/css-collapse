@@ -18,6 +18,7 @@ async function main() {
   const db = client.db("test");
   const postsCollection = db.collection("posts");
   const usersCollection = db.collection("users");
+  const commentsCollection = db.collection("comments");
   // index.html to jsdom
   const indexJSDOM = new JSDOM(indexHTML, {
     includeNodeLocations: true,
@@ -38,8 +39,16 @@ async function main() {
     const posts = await postsCollection.find({}).toArray();
     posts.forEach(async (post) => {
       const localUser = await usersCollection.findOne({ _id: post.user });
+      const topLevelComments = await commentsCollection
+        .find({ parentId: ObjectId(post._id) })
+        .toArray();
       frontPagePosts.appendChild(
-        createPostListItem(post, localUser, indexDocument)
+        createPostListItem(
+          post,
+          localUser,
+          topLevelComments.length,
+          indexDocument
+        )
       );
     });
 
@@ -55,10 +64,15 @@ async function main() {
     const post = await postsCollection.findOne({ _id: ObjectId(id) });
     console.log(post.user);
     const localUser = await usersCollection.findOne({ _id: post.user });
+    const topLevelComments = await commentsCollection
+      .find({ parentId: ObjectId(post._id) })
+      .toArray();
     console.log(localUser);
     console.log("post", post);
     postPagePost.innerHTML = "";
-    postPagePost.appendChild(createPostListItem(post, localUser, postDocument));
+    postPagePost.appendChild(
+      createPostListItem(post, localUser, topLevelComments.length, postDocument)
+    );
     res.send(postJSDOM.serialize());
   });
 

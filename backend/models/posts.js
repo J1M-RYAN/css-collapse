@@ -7,11 +7,10 @@ export const postFactory = (title, link, user) => {
     user,
     points: 0,
     dateCreated: new Date(),
-    comments: [],
   };
 };
 
-export const createPostListItem = (post, user, document) => {
+export const createPostListItem = (post, user, numComments, document) => {
   const newPostListItem = document.createElement("li");
   newPostListItem.classList.add("post");
   // add space before link
@@ -39,7 +38,7 @@ export const createPostListItem = (post, user, document) => {
   );
   const commentsLink = document.createElement("a");
   commentsLink.href = `/post?id=${post._id}`;
-  commentsLink.innerHTML = `${post.comments.length} comments`;
+  commentsLink.innerHTML = `${numComments} comments`;
   postSpan.appendChild(commentsLink);
   newPostListItem.appendChild(postSpan);
   return newPostListItem;

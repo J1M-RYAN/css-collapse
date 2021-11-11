@@ -17,6 +17,7 @@ async function main() {
   const client = await initaliseDB();
   const db = client.db("test");
   const postsCollection = db.collection("posts");
+  const usersCollection = db.collection("users");
   // index.html to jsdom
   const indexJSDOM = new JSDOM(indexHTML, {
     includeNodeLocations: true,
@@ -35,8 +36,11 @@ async function main() {
 
   app.get("/", async (req, res) => {
     const posts = await postsCollection.find({}).toArray();
-    posts.forEach((post) => {
-      frontPagePosts.appendChild(createPostListItem(post, indexDocument));
+    posts.forEach(async (post) => {
+      const localUser = await usersCollection.findOne({ _id: post.user });
+      frontPagePosts.appendChild(
+        createPostListItem(post, localUser, indexDocument)
+      );
     });
 
     //frontPagePosts.appendChild(newPostListItem);
@@ -49,9 +53,12 @@ async function main() {
   app.get("/post", async (req, res) => {
     const id = req.query.id;
     const post = await postsCollection.findOne({ _id: ObjectId(id) });
+    console.log(post.user);
+    const localUser = await usersCollection.findOne({ _id: post.user });
+    console.log(localUser);
     console.log("post", post);
     postPagePost.innerHTML = "";
-    postPagePost.appendChild(createPostListItem(post, postDocument));
+    postPagePost.appendChild(createPostListItem(post, localUser, postDocument));
     res.send(postJSDOM.serialize());
   });
 

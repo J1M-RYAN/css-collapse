@@ -13,7 +13,6 @@ async function main() {
 
   const indexHTML = fs.readFileSync("../ui/index.html").toString();
   const postHTML = fs.readFileSync("../ui/post.html").toString();
-
   buildUI();
   const client = await initaliseDB();
   const db = client.db("test");

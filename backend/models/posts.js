@@ -1,3 +1,7 @@
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo("en-US");
 export const postFactory = (title, link, user) => {
   const { hostname } = new URL(link);
   return {
@@ -10,8 +14,14 @@ export const postFactory = (title, link, user) => {
   };
 };
 
-export const createPostListItem = (post, user, numComments, document) => {
-  const newPostListItem = document.createElement("li");
+export const createPostListItem = (
+  post,
+  user,
+  numComments,
+  document,
+  isListItem
+) => {
+  const newPostListItem = document.createElement(isListItem ? "li" : "div");
   newPostListItem.classList.add("post");
   // add space before link
   newPostListItem.appendChild(document.createTextNode("\u00A0"));
@@ -31,11 +41,17 @@ export const createPostListItem = (post, user, numComments, document) => {
 
   const postSpan = document.createElement("span");
   postSpan.classList.add("post-subtext");
-  postSpan.appendChild(
-    document.createTextNode(
-      `${post.points} points by ${user.username} in 2 horus | hide | `
-    )
+  const underSpan = document.createElement("span");
+  const localLink = document.createElement("a");
+  localLink.href = `/users/${user.username}`;
+  console.log("user.username", user.username);
+  localLink.appendChild(document.createTextNode(user.username));
+  underSpan.appendChild(document.createTextNode(`${post.points} points by `));
+  underSpan.appendChild(localLink);
+  underSpan.appendChild(
+    document.createTextNode(` ${timeAgo.format(post.dateCreated)} `)
   );
+  postSpan.appendChild(underSpan);
   const commentsLink = document.createElement("a");
   commentsLink.href = `/post?id=${post._id}`;
   commentsLink.innerHTML = `${numComments} comments`;

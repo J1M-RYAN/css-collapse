@@ -6,8 +6,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node server.js",
-    "dev": "nodemon --exec \"npm run lint && node server\"",
+    "start": "NODE_ENV=production node --experimental-json-modules server.js",
+    "dev": "nodemon --exec \"npm run lint && node --experimental-json-modules server\"",
     "lint": ""
   },
   "keywords": [],
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "javascript-time-ago": "^2.3.10",
     "jsdom": "^18.0.1",
     "mongodb": "^4.1.4",
     "nodemon": "^2.0.14"

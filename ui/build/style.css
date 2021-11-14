@@ -78,6 +78,7 @@ main > ol > li {
 }
 .comment {
   padding: 1rem;
+  padding-bottom: 0;
 }
 
 .comment-form {
@@ -101,7 +102,7 @@ main > ol > li {
 textarea {
   max-width: 80vw;
 }
-input[type="checkbox"].collabsible-input {
+input[type="checkbox"].collapsible-input {
   display: none;
 }
 
